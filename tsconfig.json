@@ -8,6 +8,7 @@
     "skipLibCheck": true,
     "outDir": "dist",
     "baseUrl": ".",
+    "moduleResolution": "Node",
   },
   "exclude": ["node_modules", "dist"],
   "include": ["src/**/*", "test.ts"]
