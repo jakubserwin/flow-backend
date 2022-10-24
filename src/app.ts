@@ -1,5 +1,7 @@
 import express from 'express'
 import mongoose from 'mongoose'
+import helmet from 'helmet'
+import rateLimit from 'express-rate-limit'
 import config from './config'
 import { userRouter } from './routes'
 
@@ -7,6 +9,12 @@ import { userRouter } from './routes'
 const app = express()
 
 // Global Middleware
+app.use(helmet())
+app.use(rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: 'Too many requests from this IP!'
+}))
 app.use(express.json())
 
 // Routes

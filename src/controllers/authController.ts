@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import { Types } from 'mongoose'
-import { NextFunction, Request, Response } from 'express'
+import { Request, Response } from 'express'
 import { User } from '../models'
 
 const signToken = (id: Types.ObjectId): string => {
@@ -30,11 +30,7 @@ export const signUp = (req: Request, res: Response): void => {
     })
 }
 
-export const login = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): void => {
+export const login = (req: Request, res: Response): void => {
   const { email, password } = req.body
 
   if (email === '' || password === '') {
