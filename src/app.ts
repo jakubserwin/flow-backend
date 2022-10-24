@@ -1,15 +1,16 @@
-import express, { Request, Response } from 'express'
+import express from 'express'
 import mongoose from 'mongoose'
 import config from './config'
+import { userRouter } from './routes'
 
 // Create Express App
 const app = express()
 
 // Global Middleware
+app.use(express.json())
 
-app.get('/', (_: Request, res: Response) => {
-  res.send('Hello World!')
-})
+// Routes
+app.use('/users', userRouter)
 
 // DB Connection
 mongoose.connect(config.databaseUrl, error => {
