@@ -2,6 +2,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
+import cors from 'cors'
 import config from './config'
 import { userRouter } from './routes'
 
@@ -16,6 +17,7 @@ app.use(rateLimit({
   message: 'Too many requests from this IP!'
 }))
 app.use(express.json())
+app.use(cors())
 
 // Routes
 app.use('/users', userRouter)
