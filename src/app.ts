@@ -4,7 +4,7 @@ import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
 import cors from 'cors'
 import config from './config'
-import { userRouter } from './routes'
+import { projectRouter, userRouter } from './routes'
 
 // Create Express App
 const app = express()
@@ -21,6 +21,7 @@ app.use(cors())
 
 // Routes
 app.use('/users', userRouter)
+app.use('/projects', projectRouter)
 
 // DB Connection
 mongoose.connect(config.databaseUrl, error => {

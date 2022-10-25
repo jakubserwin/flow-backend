@@ -28,4 +28,4 @@ const projectSchema = new Schema<IProject>({
   }
 })
 
-export const Project = model<IProject>('User', projectSchema)
+export const Project = model<IProject>('Project', projectSchema)
