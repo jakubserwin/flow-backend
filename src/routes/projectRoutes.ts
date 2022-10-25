@@ -1,10 +1,10 @@
 import express from 'express'
-import { createProject } from '../controllers'
+import { createProject, protect } from '../controllers'
 
 const projectRouter = express.Router()
 
 projectRouter
   .route('/')
-  .post(createProject)
+  .post(protect, createProject)
 
 export { projectRouter }
