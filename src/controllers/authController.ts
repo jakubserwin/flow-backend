@@ -17,9 +17,7 @@ export const signUp = (req: Request, res: Response): void => {
       res.status(201).json({
         status: 'Success',
         token,
-        data: {
-          user: response
-        }
+        user: response
       })
     })
     .catch(() => {
@@ -30,49 +28,38 @@ export const signUp = (req: Request, res: Response): void => {
     })
 }
 
-export const login = (req: Request, res: Response): void => {
-  const { email, password } = req.body
+export const login = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email, password } = req.body
 
-  if (email === '' || password === '') {
-    res.status(400).json({
-      status: 'Failure',
-      message: 'Empty values provided'
-    })
-    return
-  }
-
-  User.findOne({ email })
-    .select('+password')
-    .then(response => {
-      if (response !== null) {
-        response
-          .verifyPassword(password)
-          .then(result => {
-            if (!result) {
-              res.status(400).json({
-                status: 'Failure',
-                message: 'Invalid email or password'
-              })
-              return
-            }
-            const token = signToken(response._id)
-            res.status(201).json({
-              status: 'Success',
-              token
-            })
-          })
-          .catch(() => {
-            res.status(400).json({
-              status: 'Failure',
-              message: 'Something went wrong'
-            })
-          })
-      }
-    })
-    .catch(() => {
+    if (email === '' || password === '') {
       res.status(400).json({
         status: 'Failure',
-        message: 'Something went wrong'
+        message: 'Empty values provided'
       })
+      return
+    }
+
+    const user = await User.findOne({ email }).select('+password')
+
+    if ((user == null) || !(await user.verifyPassword(password))) {
+      res.status(400).json({
+        status: 'Failure',
+        message: 'Invalid email or password'
+      })
+      return
+    }
+
+    const token = signToken(user._id)
+    res.status(201).json({
+      status: 'Success',
+      token,
+      user
     })
+  } catch {
+    res.status(400).json({
+      status: 'Failure',
+      message: 'Something went wrong'
+    })
+  }
 }

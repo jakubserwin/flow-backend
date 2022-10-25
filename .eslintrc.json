@@ -15,5 +15,13 @@
     "quotes": ["error", "single"],
     "@typescript-eslint/semi": "off",
     "@typescript-eslint/explicit-function-return-type": ["error"]
-  }
+  },
+  "overrides": [
+    {
+      "files": ["src/routes/userRoutes.ts"],
+      "rules": {
+        "@typescript-eslint/no-misused-promises": ["off"]
+      }
+    }
+  ]
 }
