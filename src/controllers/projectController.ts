@@ -19,15 +19,15 @@ export const createProject = (req: Request, res: Response): void => {
 
 export const getProjectsByUser = async (req: Request, res: Response): Promise<void> => {
   try {
-    const projects = Project.find({ owner: req.params.id })
-    // const guestProjects = Project.find({ members: req.params.id })
+    const projects = await Project.find({ owner: req.params.id })
+    const guestProjects = await Project.find({ members: req.params.id })
 
     res.status(200).json({
       status: 'Success',
-      projects
+      projects,
+      guestProjects
     })
-  } catch (err) {
-    console.log(err)
+  } catch {
     res.status(400).json({
       status: 'Failure',
       message: 'Provided user doesn\'t have any projects!'

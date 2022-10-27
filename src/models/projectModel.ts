@@ -16,7 +16,7 @@ const projectSchema = new Schema<IProject>({
     type: Boolean,
     required: true
   },
-  onwer: {
+  owner: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true

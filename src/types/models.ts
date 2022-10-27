@@ -14,7 +14,7 @@ export interface IProject {
   name: string
   color: string
   isFavourite: boolean
-  onwer: Types.ObjectId
+  owner: Types.ObjectId
   members: Types.ObjectId[]
   boards?: string[]
 }
