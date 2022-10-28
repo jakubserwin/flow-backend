@@ -16,5 +16,13 @@ export interface IProject {
   isFavourite: boolean
   owner: Types.ObjectId
   members: Types.ObjectId[]
-  boards?: string[]
+  boardsCount: number
+}
+
+export interface IBoard {
+  _id: Types.ObjectId
+  name: string
+  color: string
+  project: Types.ObjectId
+  members: Types.ObjectId[]
 }

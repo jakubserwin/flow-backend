@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose'
-import { IProject } from 'src/types'
+import { IBoard } from 'src/types'
 
-const projectSchema = new Schema<IProject>({
+const boardSchema = new Schema<IBoard>({
   name: {
     type: String,
     required: true,
@@ -12,24 +12,16 @@ const projectSchema = new Schema<IProject>({
     required: true,
     trim: true
   },
-  isFavourite: {
-    type: Boolean,
-    required: true
-  },
-  owner: {
+  project: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'Project',
     required: true
   },
   members: {
     type: [Schema.Types.ObjectId],
     ref: 'User',
     required: true
-  },
-  boardsCount: {
-    type: Number,
-    required: true
   }
 })
 
-export const Project = model<IProject>('Project', projectSchema)
+export const Board = model<IBoard>('Board', boardSchema)

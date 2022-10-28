@@ -1,12 +1,15 @@
 import express from 'express'
-import { createProject, deleteProject, getProjectsByUser, protect } from '../controllers'
-import { updateProject } from '../controllers/projectController'
+import {
+  createProject,
+  deleteProject,
+  getProjectsByUser,
+  protect,
+  updateProject
+} from '../controllers'
 
 const projectRouter = express.Router()
 
-projectRouter
-  .route('/')
-  .post(protect, createProject)
+projectRouter.route('/').post(protect, createProject)
 
 projectRouter
   .route('/:id')
