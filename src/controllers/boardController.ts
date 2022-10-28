@@ -40,7 +40,7 @@ export const updateBoard = (req: Request, res: Response): void => {
     .then(response => {
       res.status(201).json({
         status: 'Success',
-        project: response
+        board: response
       })
     })
     .catch(() => {
