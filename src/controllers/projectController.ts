@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { Project } from '../models'
+import { Project, Board } from '../models'
 
 export const createProject = (req: Request, res: Response): void => {
   Project.create(req.body)
@@ -53,18 +53,19 @@ export const updateProject = (req: Request, res: Response): void => {
     })
 }
 
-export const deleteProject = (req: Request, res: Response): void => {
-  Project.findByIdAndDelete(req.params.id)
-    .then(() => {
-      res.status(204).json({
-        status: 'Success',
-        project: null
-      })
+export const deleteProject = async (req: Request, res: Response): Promise<void> => {
+  try {
+    await Project.findByIdAndDelete(req.params.id)
+    await Board.deleteMany({ project: req.params.id })
+
+    res.status(204).json({
+      status: 'Success',
+      project: null
     })
-    .catch(() => {
-      res.status(400).json({
-        status: 'Failure',
-        message: 'Something went wrong while trying to delete project!'
-      })
+  } catch {
+    res.status(400).json({
+      status: 'Failure',
+      message: 'Something went wrong while trying to delete project!'
     })
+  }
 }
