@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
-import { Project, Board } from '../models'
+import { sendEmail } from '../utils'
+import { Project, Board, User } from '../models'
 
 export const createProject = (req: Request, res: Response): void => {
   Project.create(req.body)
@@ -66,6 +67,42 @@ export const deleteProject = async (req: Request, res: Response): Promise<void> 
     res.status(400).json({
       status: 'Failure',
       message: 'Something went wrong while trying to delete project!'
+    })
+  }
+}
+
+export const addMember = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const user = await User.findOne({ email: req.body.email })
+    const project = await Project.findById(req.params.id)
+    if (project === null || user === null) {
+      res.status(400).json({
+        status: 'Failure',
+        message: 'User with provided email don\'t exists'
+      })
+      return
+    }
+    const owner = await User.findById(project.owner)
+    if (owner === null) return
+
+    await Project.findByIdAndUpdate(req.params.id, {
+      members: [...project.members, user._id]
+    }, {
+      new: true
+    })
+    await sendEmail({
+      from: 'flow-app@outlook.com',
+      to: req.body.email,
+      subject: 'Flow - You have been added to a project',
+      text: `Hello, ${owner.firstName} ${owner.lastName} has added you to ${project.name} project!`
+    })
+    res.status(200).json({
+      status: 'Success'
+    })
+  } catch {
+    res.status(400).json({
+      status: 'Failure',
+      message: 'Something went wrong while trying to add member!'
     })
   }
 }
