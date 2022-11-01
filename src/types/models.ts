@@ -26,3 +26,7 @@ export interface IBoard {
   project: Types.ObjectId
   members: Types.ObjectId[]
 }
+
+export interface IUserDocument extends IUser, Document {
+  verifyPassword: (password: string) => Promise<boolean>
+}

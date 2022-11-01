@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose'
 import bcrypt from 'bcryptjs'
-import { IUser } from 'src/types'
+import { IUser, IUserDocument } from 'src/types'
 
 const userSchema = new Schema<IUser>({
   firstName: {
@@ -33,10 +33,6 @@ userSchema.pre('save', async function (next) {
 
 userSchema.methods.verifyPassword = async function (password: string) {
   return await bcrypt.compare(password, this.password)
-}
-
-interface IUserDocument extends IUser, Document {
-  verifyPassword: (password: string) => Promise<boolean>
 }
 
 export const User = model<IUserDocument>('User', userSchema)

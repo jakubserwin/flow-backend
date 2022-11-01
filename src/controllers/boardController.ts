@@ -1,20 +1,25 @@
 import { Request, Response } from 'express'
-import { Board } from '../models'
+import { Board, Project } from '../models'
 
-export const createBoard = (req: Request, res: Response): void => {
-  Board.create(req.body)
-    .then(response => {
-      res.status(201).json({
-        status: 'Success',
-        board: response
-      })
+export const createBoard = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const board = await Board.create(req.body)
+    const project = await Project.findById(req.body.project)
+    await Project.findByIdAndUpdate(req.body.project, {
+      boardsCount: project?.boardsCount as number + 1
+    }, {
+      new: true
     })
-    .catch(() => {
-      res.status(400).json({
-        status: 'Failure',
-        message: 'Something went wrong while trying to create board!'
-      })
+    res.status(200).json({
+      status: 'Success',
+      board
     })
+  } catch {
+    res.status(400).json({
+      status: 'Failure',
+      message: 'Something went wrong while trying to create board!'
+    })
+  }
 }
 
 export const getBoardsByProject = async (req: Request, res: Response): Promise<void> => {
@@ -51,18 +56,27 @@ export const updateBoard = (req: Request, res: Response): void => {
     })
 }
 
-export const deleteBoard = (req: Request, res: Response): void => {
-  Board.findByIdAndDelete(req.params.id)
-    .then(() => {
-      res.status(204).json({
-        status: 'Success',
-        project: null
+export const deleteBoard = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const board = await Board.findById(req.params.id)
+    await Board.findByIdAndDelete(req.params.id)
+    const project = await Project.findById(board?.project)
+    if (project !== null && project.boardsCount > 0) {
+      await Project.findByIdAndUpdate(board?.project, {
+        boardsCount: project.boardsCount - 1
+      }, {
+        new: true
       })
+    }
+
+    res.status(204).json({
+      status: 'Success',
+      project: null
     })
-    .catch(() => {
-      res.status(400).json({
-        status: 'Failure',
-        message: 'Something went wrong while trying to delete board!'
-      })
+  } catch {
+    res.status(400).json({
+      status: 'Failure',
+      message: 'Something went wrong while trying to delete board!'
     })
+  }
 }
