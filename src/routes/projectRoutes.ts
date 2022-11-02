@@ -1,6 +1,6 @@
 import express from 'express'
 import {
-  addMember,
+  handleMember,
   createProject,
   deleteProject,
   getProjectsByUser,
@@ -16,7 +16,7 @@ projectRouter
 
 projectRouter
   .route('/:id')
-  .post(protect, addMember)
+  .post(protect, handleMember)
   .get(protect, getProjectsByUser)
   .patch(protect, updateProject)
   .delete(protect, deleteProject)
