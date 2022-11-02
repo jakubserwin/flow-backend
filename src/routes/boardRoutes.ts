@@ -1,5 +1,5 @@
 import express from 'express'
-import { addMemberToBoard, createBoard, deleteBoard, getBoardsByProject, protect, updateBoard } from '../controllers'
+import { addOrRemoveMember, createBoard, deleteBoard, getBoardsByProject, protect, updateBoard } from '../controllers'
 
 const boardRouter = express.Router()
 
@@ -9,7 +9,7 @@ boardRouter
 
 boardRouter
   .route('/:id')
-  .post(protect, addMemberToBoard)
+  .post(protect, addOrRemoveMember)
   .get(protect, getBoardsByProject)
   .patch(protect, updateBoard)
   .delete(protect, deleteBoard)

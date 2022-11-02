@@ -81,20 +81,29 @@ export const deleteBoard = async (req: Request, res: Response): Promise<void> =>
   }
 }
 
-export const addMemberToBoard = async (req: Request, res: Response): Promise<void> => {
+export const addOrRemoveMember = async (req: Request, res: Response): Promise<void> => {
   try {
     const board = await Board.findById(req.params.id)
-    if (board !== null) {
+    if (board === null) return
+
+    // Add member
+    if (!board.members.includes(req.body.id)) {
       await Board.findByIdAndUpdate(req.params.id, {
         members: [...board.members, req.body.id]
       }, {
         new: true
       })
-
-      res.status(200).json({
-        status: 'Success'
+    } else {
+      // Remove member
+      await Board.findByIdAndUpdate(req.params.id, {
+        members: board.members.filter((id) => req.body.id !== id.toString())
+      }, {
+        new: true
       })
     }
+    res.status(200).json({
+      status: 'Success'
+    })
   } catch {
     res.status(400).json({
       status: 'Failure',

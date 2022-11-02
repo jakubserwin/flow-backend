@@ -98,20 +98,17 @@ export const handleMember = async (req: Request, res: Response): Promise<void> =
         subject: 'Flow - You have been added to a project',
         text: `Hello, ${owner.firstName} ${owner.lastName} has added you to ${project.name} project!`
       })
-      res.status(200).json({
-        status: 'Success'
-      })
-      // Remove member
     } else {
+      // Remove member
       await Project.findByIdAndUpdate(req.params.id, {
         members: project.members.filter((id) => !user._id.equals(id))
       }, {
         new: true
       })
-      res.status(200).json({
-        status: 'Success'
-      })
     }
+    res.status(200).json({
+      status: 'Success'
+    })
   } catch {
     res.status(400).json({
       status: 'Failure',
