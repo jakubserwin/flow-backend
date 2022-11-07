@@ -87,22 +87,24 @@ export const addOrRemoveMember = async (req: Request, res: Response): Promise<vo
     if (board === null) return
 
     // Add member
-    if (!board.members.includes(req.body.id)) {
+    if (!board.members.includes(req.body.memberId)) {
       await Board.findByIdAndUpdate(req.params.id, {
-        members: [...board.members, req.body.id]
+        members: [...board.members, req.body.memberId]
       }, {
         new: true
       })
     } else {
       // Remove member
       await Board.findByIdAndUpdate(req.params.id, {
-        members: board.members.filter((id) => req.body.id !== id.toString())
+        members: board.members.filter((id) => req.body.memberId !== id.toString())
       }, {
         new: true
       })
     }
+    const newBoard = await Board.findById(req.params.id)
     res.status(200).json({
-      status: 'Success'
+      status: 'Success',
+      board: newBoard
     })
   } catch {
     res.status(400).json({
