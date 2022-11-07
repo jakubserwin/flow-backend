@@ -106,8 +106,10 @@ export const handleMember = async (req: Request, res: Response): Promise<void> =
         new: true
       })
     }
+    const updatedProject = await Project.findById(req.params.id).populate('members')
     res.status(200).json({
-      status: 'Success'
+      status: 'Success',
+      project: updatedProject
     })
   } catch {
     res.status(400).json({
