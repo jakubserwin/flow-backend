@@ -4,6 +4,8 @@ import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
 import cors from 'cors'
 import config from './config'
+import path from 'path'
+import { fileURLToPath } from 'url'
 import { boardRouter, projectRouter, userRouter } from './routes'
 
 // Create Express App
@@ -18,6 +20,9 @@ app.use(rateLimit({
 }))
 app.use(express.json())
 app.use(cors())
+
+const _dirname = path.dirname(fileURLToPath(import.meta.url))
+app.use('/public', express.static(_dirname + '/public'))
 
 // Routes
 app.use('/users', userRouter)
