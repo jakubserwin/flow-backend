@@ -12,7 +12,9 @@ import { boardRouter, projectRouter, userRouter } from './routes'
 const app = express()
 
 // Global Middleware
-app.use(helmet())
+app.use(helmet({
+  crossOriginResourcePolicy: false
+}))
 app.use(rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
@@ -20,6 +22,11 @@ app.use(rateLimit({
 }))
 app.use(express.json())
 app.use(cors())
+
+// app.use((req, res, next) => {
+//   res.header('Cross-Origin-Resource-Policy', 'cross-origin')
+//   next()
+// })
 
 const _dirname = path.dirname(fileURLToPath(import.meta.url))
 app.use('/public', express.static(_dirname + '/public'))
