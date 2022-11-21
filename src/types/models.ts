@@ -30,3 +30,16 @@ export interface IBoard {
 export interface IUserDocument extends IUser, Document {
   verifyPassword: (password: string) => Promise<boolean>
 }
+
+export interface IList {
+  _id: Types.ObjectId
+  stage: string
+  cards: Types.ObjectId[]
+  board: Types.ObjectId
+}
+
+export interface ICard {
+  _id: Types.ObjectId
+  name: string
+  assignee: Types.ObjectId
+}

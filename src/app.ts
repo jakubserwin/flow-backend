@@ -6,7 +6,7 @@ import cors from 'cors'
 import config from './config'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { boardRouter, projectRouter, userRouter } from './routes'
+import { boardRouter, listRouter, projectRouter, userRouter } from './routes'
 
 // Create Express App
 const app = express()
@@ -23,11 +23,6 @@ app.use(rateLimit({
 app.use(express.json())
 app.use(cors())
 
-// app.use((req, res, next) => {
-//   res.header('Cross-Origin-Resource-Policy', 'cross-origin')
-//   next()
-// })
-
 const _dirname = path.dirname(fileURLToPath(import.meta.url))
 app.use('/public', express.static(_dirname + '/public'))
 
@@ -35,6 +30,7 @@ app.use('/public', express.static(_dirname + '/public'))
 app.use('/users', userRouter)
 app.use('/projects', projectRouter)
 app.use('/boards', boardRouter)
+app.use('/lists', listRouter)
 
 // DB Connection
 mongoose.connect(config.databaseUrl, error => {
