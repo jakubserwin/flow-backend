@@ -1,34 +1,27 @@
 import { Request, Response } from 'express'
-import { Card } from '../models'
+import { Card, List } from '../models'
 
-export const createCard = (req: Request, res: Response): void => {
-  Card.create(req.body)
-    .then(response => {
-      res.status(201).json({
-        status: 'Success',
-        card: response
-      })
-    })
-    .catch(() => {
-      res.status(400).json({
-        status: 'Failure',
-        message: 'Something went wrong while trying to create card!'
-      })
-    })
-}
-
-export const getCardsByList = async (req: Request, res: Response): Promise<void> => {
+export const createCard = async (req: Request, res: Response): Promise<void> => {
   try {
-    const cards = await Card.find({ list: req.params.id })
-
-    res.status(200).json({
-      status: 'Success',
-      cards
+    const { name, assignee, list } = req.body
+    const card = await Card.create({
+      name,
+      assignee
     })
-  } catch {
+
+    await List.updateOne(
+      { _id: list },
+      { $push: { cards: card } }
+    )
+
+    res.status(201).json({
+      status: 'Success',
+      card
+    })
+  } catch (err) {
     res.status(400).json({
       status: 'Failure',
-      message: 'Provided list doesn\'t have any cards!'
+      message: 'Something went wrong while trying to create card!'
     })
   }
 }

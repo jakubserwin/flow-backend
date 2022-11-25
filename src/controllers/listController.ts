@@ -38,7 +38,6 @@ export const updateList = (req: Request, res: Response): void => {
     new: true
   })
     .then(response => {
-      console.log(response)
       res.status(201).json({
         status: 'Success',
         list: response

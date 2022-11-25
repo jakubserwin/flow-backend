@@ -7,10 +7,6 @@ const cardSchema = new Schema<ICard>({
     required: true,
     trim: true
   },
-  list: {
-    type: Schema.Types.ObjectId,
-    ref: 'List'
-  },
   assignee: {
     type: Schema.Types.ObjectId,
     ref: 'User'
