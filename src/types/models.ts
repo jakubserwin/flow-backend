@@ -41,5 +41,6 @@ export interface IList {
 export interface ICard {
   _id: Types.ObjectId
   name: string
+  list: Types.ObjectId
   assignee: Types.ObjectId
 }

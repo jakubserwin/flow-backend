@@ -6,7 +6,7 @@ import cors from 'cors'
 import config from './config'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { boardRouter, listRouter, projectRouter, userRouter } from './routes'
+import { boardRouter, listRouter, projectRouter, userRouter, cardRouter } from './routes'
 
 // Create Express App
 const app = express()
@@ -17,7 +17,7 @@ app.use(helmet({
 }))
 app.use(rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100,
+  max: 1000,
   message: 'Too many requests from this IP!'
 }))
 app.use(express.json())
@@ -31,6 +31,7 @@ app.use('/users', userRouter)
 app.use('/projects', projectRouter)
 app.use('/boards', boardRouter)
 app.use('/lists', listRouter)
+app.use('/cards', cardRouter)
 
 // DB Connection
 mongoose.connect(config.databaseUrl, error => {
