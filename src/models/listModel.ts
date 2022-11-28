@@ -15,6 +15,9 @@ const listSchema = new Schema<IList>({
     type: Schema.Types.ObjectId,
     ref: 'Board',
     required: true
+  },
+  order: {
+    type: Number
   }
 })
 

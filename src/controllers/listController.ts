@@ -19,7 +19,7 @@ export const createList = (req: Request, res: Response): void => {
 
 export const getListsByBoard = async (req: Request, res: Response): Promise<void> => {
   try {
-    const lists = await List.find({ board: req.params.id }).populate('cards')
+    const lists = await List.find({ board: req.params.id }).sort('order').populate('cards')
 
     res.status(200).json({
       status: 'Success',
@@ -33,22 +33,19 @@ export const getListsByBoard = async (req: Request, res: Response): Promise<void
   }
 }
 
-export const updateList = (req: Request, res: Response): void => {
-  List.findByIdAndUpdate(req.params.id, req.body, {
-    new: true
-  })
-    .then(response => {
-      res.status(201).json({
-        status: 'Success',
-        list: response
-      })
+export const updateList = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const list = await List.findByIdAndUpdate(req.params.id, req.body, { new: true }).populate('cards')
+    res.status(201).json({
+      status: 'Success',
+      list
     })
-    .catch(() => {
-      res.status(400).json({
-        status: 'Failure',
-        message: 'Something went wrong while trying to update list!'
-      })
+  } catch {
+    res.status(400).json({
+      status: 'Failure',
+      message: 'Something went wrong while trying to update list!'
     })
+  }
 }
 
 export const deleteList = async (req: Request, res: Response): Promise<void> => {

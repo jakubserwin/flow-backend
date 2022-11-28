@@ -36,6 +36,7 @@ export interface IList {
   stage: string
   cards: Types.ObjectId[]
   board: Types.ObjectId
+  order: number
 }
 
 export interface ICard {
