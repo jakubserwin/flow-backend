@@ -10,6 +10,9 @@ const cardSchema = new Schema<ICard>({
   assignee: {
     type: Schema.Types.ObjectId,
     ref: 'User'
+  },
+  order: {
+    type: Number
   }
 })
 

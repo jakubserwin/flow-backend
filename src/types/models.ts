@@ -43,4 +43,5 @@ export interface ICard {
   _id: Types.ObjectId
   name: string
   assignee: Types.ObjectId
+  order: number
 }

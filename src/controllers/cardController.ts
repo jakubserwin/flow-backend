@@ -3,10 +3,11 @@ import { Card, List } from '../models'
 
 export const createCard = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { name, assignee, list } = req.body
+    const { name, assignee, list, order } = req.body
     const card = await Card.create({
       name,
-      assignee
+      assignee,
+      order
     })
 
     await List.updateOne(
@@ -26,24 +27,20 @@ export const createCard = async (req: Request, res: Response): Promise<void> => 
   }
 }
 
-// export const updateList = (req: Request, res: Response): void => {
-//   List.findByIdAndUpdate(req.params.id, req.body, {
-//     new: true
-//   })
-//     .then(response => {
-//       console.log(response)
-//       res.status(201).json({
-//         status: 'Success',
-//         list: response
-//       })
-//     })
-//     .catch(() => {
-//       res.status(400).json({
-//         status: 'Failure',
-//         message: 'Something went wrong while trying to update list!'
-//       })
-//     })
-// }
+export const updateCard = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const card = await Card.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    res.status(201).json({
+      status: 'Success',
+      card
+    })
+  } catch {
+    res.status(400).json({
+      status: 'Failure',
+      message: 'Something went wrong while trying to update card!'
+    })
+  }
+}
 
 export const deleteCard = async (req: Request, res: Response): Promise<void> => {
   try {

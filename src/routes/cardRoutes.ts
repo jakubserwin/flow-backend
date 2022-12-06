@@ -2,7 +2,8 @@ import express from 'express'
 import {
   protect,
   createCard,
-  deleteCard
+  deleteCard,
+  updateCard
 } from '../controllers'
 
 const cardRouter = express.Router()
@@ -13,7 +14,7 @@ cardRouter
 
 cardRouter
   .route('/:id')
-  // .patch(protect, updateProject)
+  .patch(protect, updateCard)
   .delete(protect, deleteCard)
 
 export { cardRouter }
