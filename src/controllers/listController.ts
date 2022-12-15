@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { Card, List } from '../models'
+import { List } from '../models'
 
 export const createList = (req: Request, res: Response): void => {
   List.create(req.body)
@@ -50,11 +50,6 @@ export const updateList = async (req: Request, res: Response): Promise<void> => 
 
 export const deleteList = async (req: Request, res: Response): Promise<void> => {
   try {
-    const list = await List.findById(req.params.id)
-    if (list === null) return
-    list.cards.forEach((card) => {
-      Card.findByIdAndDelete(card).catch((err) => console.log(err))
-    })
     await List.findByIdAndDelete(req.params.id)
 
     res.status(204).json({

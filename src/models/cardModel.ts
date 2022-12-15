@@ -13,6 +13,9 @@ const cardSchema = new Schema<ICard>({
   },
   order: {
     type: Number
+  },
+  description: {
+    type: String
   }
 })
 

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { Board, List, Project } from '../models'
+import { Board, Project } from '../models'
 
 export const createBoard = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -58,17 +58,7 @@ export const updateBoard = (req: Request, res: Response): void => {
 
 export const deleteBoard = async (req: Request, res: Response): Promise<void> => {
   try {
-    const board = await Board.findById(req.params.id)
     await Board.findByIdAndDelete(req.params.id)
-    await List.deleteMany({ board: req.params.id })
-    const project = await Project.findById(board?.project)
-    if (project !== null && project.boardsCount > 0) {
-      await Project.findByIdAndUpdate(board?.project, {
-        boardsCount: project.boardsCount - 1
-      }, {
-        new: true
-      })
-    }
 
     res.status(204).json({
       status: 'Success',

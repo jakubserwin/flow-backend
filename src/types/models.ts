@@ -44,4 +44,5 @@ export interface ICard {
   name: string
   assignee: Types.ObjectId
   order: number
+  description: string
 }
