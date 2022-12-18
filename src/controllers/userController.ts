@@ -1,17 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import multer, { FileFilterCallback } from 'multer'
 import sharp from 'sharp'
-import { User } from '../models'
-
-// const multerStorage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, 'src/public')
-//   },
-//   filename: (req, file, cb) => {
-//     const ext = file.mimetype.split('/')[1]
-//     cb(null, `user-${req.params.id}-${Date.now()}.${ext}`)
-//   }
-// })
+import { Board, Project, User } from '../models'
 
 const multerStorage = multer.memoryStorage()
 
@@ -64,4 +54,22 @@ export const updateUser = (req: Request, res: Response): void => {
         message: 'Something went wrong while trying to upload avatar'
       })
     })
+}
+
+export const getMembers = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const board = await Board.findById(req.params.id)
+    if (board === null) return
+    const project = await Project.findById(board.project).populate('members')
+    if (project === null) return
+    res.status(200).json({
+      status: 'Success',
+      members: project.members
+    })
+  } catch {
+    res.status(400).json({
+      status: 'Failure',
+      message: 'Something went wrong while trying to get members!'
+    })
+  }
 }

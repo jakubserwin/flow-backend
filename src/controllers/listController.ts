@@ -19,7 +19,12 @@ export const createList = (req: Request, res: Response): void => {
 
 export const getListsByBoard = async (req: Request, res: Response): Promise<void> => {
   try {
-    const lists = await List.find({ board: req.params.id }).sort('order').populate('cards')
+    const lists = await List.find({ board: req.params.id }).sort('order').populate({
+      path: 'cards',
+      populate: {
+        path: 'assignee'
+      }
+    })
 
     res.status(200).json({
       status: 'Success',

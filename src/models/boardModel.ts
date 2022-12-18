@@ -26,6 +26,17 @@ const boardSchema = new Schema<IBoard>({
   }
 })
 
+boardSchema.pre('save', async function (next) {
+  // TODO improvement needed -> decrease double find
+  const project = await Project.findById(this.project)
+  await Project.findByIdAndUpdate(this.project, {
+    boardsCount: project?.boardsCount as number + 1
+  }, {
+    new: true
+  })
+  next()
+})
+
 boardSchema.pre('findOneAndDelete', async function (next) {
   const { _id } = this.getQuery()
   const board = await Board.findById(_id)

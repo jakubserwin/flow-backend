@@ -1,6 +1,9 @@
 import { Request, Response } from 'express'
 import { sendEmail } from '../utils'
 import { Project, Board, User } from '../models'
+import pug from 'pug'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
 export const createProject = (req: Request, res: Response): void => {
   Project.create(req.body)
@@ -92,11 +95,21 @@ export const handleMember = async (req: Request, res: Response): Promise<void> =
       }, {
         new: true
       })
+      const _dirname = path.dirname(fileURLToPath(import.meta.url))
+      const html = pug.renderFile(`${_dirname}/../templates/email/invitation.pug`, {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        // headerBgUrl: `${_dirname}/../templates/email/images/header-bg.png`,
+        // firstName: owner.firstName,
+        // lastName: owner.lastName,
+        project: project.name,
+        timeStamp: new Date().toDateString()
+      })
       await sendEmail({
         from: 'flow-app@outlook.com',
         to: req.body.email,
-        subject: 'Flow - You have been added to a project',
-        text: `Hello, ${owner.firstName} ${owner.lastName} has added you to ${project.name} project!`
+        html,
+        subject: 'Flow - You have been added to a project'
       })
     } else {
       // Remove member

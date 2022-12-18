@@ -1,15 +1,9 @@
 import { Request, Response } from 'express'
-import { Board, Project } from '../models'
+import { Board } from '../models'
 
 export const createBoard = async (req: Request, res: Response): Promise<void> => {
   try {
     const board = await Board.create(req.body)
-    const project = await Project.findById(req.body.project)
-    await Project.findByIdAndUpdate(req.body.project, {
-      boardsCount: project?.boardsCount as number + 1
-    }, {
-      new: true
-    })
     res.status(200).json({
       status: 'Success',
       board
