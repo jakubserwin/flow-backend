@@ -11,6 +11,9 @@ const cardSchema = new Schema<ICard>({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
+  dueDate: {
+    type: Number
+  },
   order: {
     type: Number
   },

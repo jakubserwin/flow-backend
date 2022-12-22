@@ -43,6 +43,7 @@ export interface ICard {
   _id: Types.ObjectId
   name: string
   assignee: Types.ObjectId
+  dueDate: number
   order: number
   description: string
 }

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import multer, { FileFilterCallback } from 'multer'
 import sharp from 'sharp'
-import { Board, Project, User } from '../models'
+import { Board, User } from '../models'
 
 const multerStorage = multer.memoryStorage()
 
@@ -58,13 +58,11 @@ export const updateUser = (req: Request, res: Response): void => {
 
 export const getMembers = async (req: Request, res: Response): Promise<void> => {
   try {
-    const board = await Board.findById(req.params.id)
+    const board = await Board.findById(req.params.id).populate('members')
     if (board === null) return
-    const project = await Project.findById(board.project).populate('members')
-    if (project === null) return
     res.status(200).json({
       status: 'Success',
-      members: project.members
+      members: board.members
     })
   } catch {
     res.status(400).json({
