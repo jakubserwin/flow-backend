@@ -99,9 +99,8 @@ export const handleMember = async (req: Request, res: Response): Promise<void> =
       const html = pug.renderFile(`${_dirname}/../templates/email/invitation.pug`, {
         firstName: user.firstName,
         lastName: user.lastName,
-        // headerBgUrl: `${_dirname}/../templates/email/images/header-bg.png`,
-        // firstName: owner.firstName,
-        // lastName: owner.lastName,
+        ownerFirstName: owner.firstName,
+        ownerLastName: owner.lastName,
         project: project.name,
         timeStamp: new Date().toDateString()
       })

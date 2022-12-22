@@ -40,7 +40,13 @@ export const getListsByBoard = async (req: Request, res: Response): Promise<void
 
 export const updateList = async (req: Request, res: Response): Promise<void> => {
   try {
-    const list = await List.findByIdAndUpdate(req.params.id, req.body, { new: true }).populate('cards')
+    const list = await List.findByIdAndUpdate(req.params.id, req.body, { new: true }).populate({
+      path: 'cards',
+      populate: {
+        path: 'assignee'
+      }
+    })
+
     res.status(201).json({
       status: 'Success',
       list
