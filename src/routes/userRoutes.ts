@@ -1,6 +1,5 @@
 import express from 'express'
-import { login, protect, signUp } from '../controllers'
-import { resizeAvatar, updateUser, uploadAvatar, getMembers } from '../controllers/userController'
+import { login, protect, signUp, resizeAvatar, updateUser, uploadAvatar, getMembers } from '../controllers'
 
 const userRouter = express.Router()
 

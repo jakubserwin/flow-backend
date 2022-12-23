@@ -60,11 +60,10 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       token,
       user
     })
-  } catch (err) {
+  } catch {
     res.status(400).json({
       status: 'Failure',
-      message: 'Something went wrong',
-      err
+      message: 'Something went wrong'
     })
   }
 }

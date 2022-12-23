@@ -2,6 +2,5 @@ node_modules
 .idea
 .env
 src/public
-functions_build
-functions_dev
+functions-dev
 functions
