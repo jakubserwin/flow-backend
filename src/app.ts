@@ -12,10 +12,6 @@ import { boardRouter, listRouter, projectRouter, userRouter, cardRouter } from '
 
 const API_PREFIX = '/.netlify/functions/app'
 
-const API_ROOT = process.env.NODE_ENV === 'production'
-  ? API_PREFIX
-  : API_PREFIX
-
 // Create Express App
 const app = express()
 
@@ -36,11 +32,11 @@ app.use(cors())
 app.use('/public', express.static(path.join(__dirname, '/public')))
 
 // Routes
-app.use(`${API_ROOT}/users`, userRouter)
-app.use(`${API_ROOT}/projects`, projectRouter)
-app.use(`${API_ROOT}/boards`, boardRouter)
-app.use(`${API_ROOT}/lists`, listRouter)
-app.use(`${API_ROOT}/cards`, cardRouter)
+app.use(`${API_PREFIX}/users`, userRouter)
+app.use(`${API_PREFIX}/projects`, projectRouter)
+app.use(`${API_PREFIX}/boards`, boardRouter)
+app.use(`${API_PREFIX}/lists`, listRouter)
+app.use(`${API_PREFIX}/cards`, cardRouter)
 
 // DB Connection
 mongoose.connect(config.databaseUrl, error => {
