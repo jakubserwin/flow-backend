@@ -13,7 +13,7 @@ const API_PREFIX = '/.netlify/functions/app'
 
 const API_ROOT = process.env.NODE_ENV === 'production'
   ? API_PREFIX
-  : ''
+  : API_PREFIX
 
 // Create Express App
 const app = express()
