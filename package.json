@@ -7,8 +7,8 @@
     "node": "14.x"
   },
   "scripts": {
-    "start": "NODE_ENV=dev netlify-lambda serve functions_dev",
-    "build": "NODE_ENV=production netlify-lambda build functions_dev",
+    "start": "NODE_ENV=dev netlify-lambda serve functions",
+    "build": "NODE_ENV=production netlify-lambda build functions",
     "build:netlify": "tsc && npm run build",
     "prepare": "husky install"
   },
