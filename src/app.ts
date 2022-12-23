@@ -6,6 +6,7 @@ import rateLimit from 'express-rate-limit'
 import cors from 'cors'
 import config from './config'
 import path from 'path'
+import { HandlerEvent } from '@netlify/functions'
 // import { fileURLToPath } from 'url'
 import { boardRouter, listRouter, projectRouter, userRouter, cardRouter } from './routes'
 
@@ -50,4 +51,9 @@ mongoose.connect(config.databaseUrl, error => {
   }
 })
 
-export const handler = serverless(app)
+const handler = serverless(app)
+module.exports.handler = async (event: HandlerEvent, context: any) => {
+  const result = await handler(event, context)
+
+  return result
+}
