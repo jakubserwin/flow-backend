@@ -3,7 +3,6 @@ import serverless from 'serverless-http'
 import mongoose from 'mongoose'
 import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
-import bodyParser from 'body-parser'
 import cors from 'cors'
 import config from './config'
 import path from 'path'
@@ -25,7 +24,7 @@ app.use(rateLimit({
   max: 100,
   message: 'Too many requests from this IP!'
 }))
-app.use(bodyParser.json())
+app.use(express.json())
 app.use(cors())
 
 // const _dirname = path.dirname(fileURLToPath(import.meta.url))
