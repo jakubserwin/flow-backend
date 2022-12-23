@@ -47,7 +47,9 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     if ((user == null) || !(await user.verifyPassword(password))) {
       res.status(400).json({
         status: 'Failure',
-        message: 'Invalid email or password'
+        message: 'Invalid email or password',
+        user,
+        find: User.findOne({ email })
       })
       return
     }
