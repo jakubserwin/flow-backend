@@ -28,8 +28,7 @@
     "netlify-lambda": "^1.4.3",
     "nodemailer": "^6.8.0",
     "pug": "^3.0.2",
-    "serverless-http": "^1.9.1",
-    "sharp": "^0.31.3"
+    "serverless-http": "^1.9.1"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
@@ -40,7 +39,6 @@
     "@types/node": "^18.7.17",
     "@types/nodemailer": "^6.4.6",
     "@types/pug": "^2.0.6",
-    "@types/sharp": "^0.31.0",
     "@typescript-eslint/eslint-plugin": "^5.37.0",
     "eslint": "^8.23.1",
     "eslint-config-standard-with-typescript": "^23.0.0",

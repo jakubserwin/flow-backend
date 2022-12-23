@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import multer, { FileFilterCallback } from 'multer'
-import sharp from 'sharp'
+// import sharp from 'sharp'
+// import Jimp from 'jimp';
 import { Board, User } from '../models'
 
 const multerStorage = multer.memoryStorage()
@@ -27,11 +28,20 @@ export const resizeAvatar = async (req: Request, res: Response, next: NextFuncti
   if (req.file === undefined) return next()
 
   req.file.filename = `user-${req.params.id}-${Date.now()}.jpeg`
-  await sharp(req.file.buffer)
-    .resize(500, 500)
-    .toFormat('jpeg')
-    .jpeg({ quality: 90 })
-    .toFile(`src/public/${req.file.filename}`)
+  // await sharp(req.file.buffer)
+  //   .resize(500, 500)
+  //   .toFormat('jpeg')
+  //   .jpeg({ quality: 90 })
+  //   .toFile(`src/public/${req.file.filename}`)
+
+  // await Jimp.read('lenna.png', (err, lenna) => {
+  //   if (err !== null) throw err
+  //   lenna
+  //     .resize(256, 256) // resize
+  //     .quality(60) // set JPEG quality
+  //     .greyscale() // set greyscale
+  //     .write('lena-small-bw.jpg'); // save
+  // });
 
   next()
 }
