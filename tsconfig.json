@@ -6,7 +6,7 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "outDir": "dist",
+    "outDir": "./functions_dev",
     "baseUrl": ".",
     "moduleResolution": "Node",
   },

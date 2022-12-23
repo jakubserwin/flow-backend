@@ -3,7 +3,7 @@ import { sendEmail } from '../utils'
 import { Project, Board, User } from '../models'
 import pug from 'pug'
 import path from 'path'
-import { fileURLToPath } from 'url'
+// import { fileURLToPath } from 'url'
 
 export const createProject = (req: Request, res: Response): void => {
   Project.create(req.body)
@@ -95,8 +95,10 @@ export const handleMember = async (req: Request, res: Response): Promise<void> =
       }, {
         new: true
       })
-      const _dirname = path.dirname(fileURLToPath(import.meta.url))
-      const html = pug.renderFile(`${_dirname}/../templates/email/invitation.pug`, {
+
+      // const _dirname = path.dirname(fileURLToPath(import.meta.url))
+      // const html = pug.renderFile(`${_dirname}/../templates/email/invitation.pug`, {
+      const html = pug.renderFile(path.join(__dirname, '/../templates/email/invitation.pug'), {
         firstName: user.firstName,
         lastName: user.lastName,
         ownerFirstName: owner.firstName,

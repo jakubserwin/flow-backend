@@ -1,12 +1,19 @@
 import express from 'express'
+import serverless from 'serverless-http'
 import mongoose from 'mongoose'
 import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
 import cors from 'cors'
 import config from './config'
 import path from 'path'
-import { fileURLToPath } from 'url'
+// import { fileURLToPath } from 'url'
 import { boardRouter, listRouter, projectRouter, userRouter, cardRouter } from './routes'
+
+const API_PREFIX = '/.netlify/functions/app'
+
+const API_ROOT = process.env.NODE_ENV === 'production'
+  ? API_PREFIX
+  : ''
 
 // Create Express App
 const app = express()
@@ -17,21 +24,22 @@ app.use(helmet({
 }))
 app.use(rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 1000,
+  max: 100,
   message: 'Too many requests from this IP!'
 }))
 app.use(express.json())
 app.use(cors())
 
-const _dirname = path.dirname(fileURLToPath(import.meta.url))
-app.use('/public', express.static(_dirname + '/public'))
+// const _dirname = path.dirname(fileURLToPath(import.meta.url))
+// app.use('/public', express.static(_dirname + '/public'))
+app.use('/public', express.static(path.join(__dirname, '/public')))
 
 // Routes
-app.use('/users', userRouter)
-app.use('/projects', projectRouter)
-app.use('/boards', boardRouter)
-app.use('/lists', listRouter)
-app.use('/cards', cardRouter)
+app.use(`${API_ROOT}/users`, userRouter)
+app.use(`${API_ROOT}/projects`, projectRouter)
+app.use(`${API_ROOT}/boards`, boardRouter)
+app.use(`${API_ROOT}/lists`, listRouter)
+app.use(`${API_ROOT}/cards`, cardRouter)
 
 // DB Connection
 mongoose.connect(config.databaseUrl, error => {
@@ -42,6 +50,4 @@ mongoose.connect(config.databaseUrl, error => {
   }
 })
 
-app.listen(config.port, () => {
-  console.log(`Example app listening on port ${config.port}!`)
-})
+export const handler = serverless(app)
