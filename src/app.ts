@@ -43,7 +43,5 @@ mongoose.connect(config.databaseUrl, error => {
 
 const handler = serverless(app)
 module.exports.handler = async (event: HandlerEvent, context: any) => {
-  const result = await handler(event, context)
-
-  return result
+  return handler(event, context)
 }
