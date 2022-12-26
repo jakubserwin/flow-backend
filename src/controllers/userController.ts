@@ -58,10 +58,11 @@ export const updateUser = (req: Request, res: Response): void => {
         user: response
       })
     })
-    .catch(() => {
+    .catch((error) => {
       res.status(400).json({
         status: 'Failure',
-        message: 'Something went wrong while trying to upload avatar'
+        message: 'Something went wrong while trying to upload avatar',
+        error
       })
     })
 }
@@ -74,10 +75,11 @@ export const getMembers = async (req: Request, res: Response): Promise<void> => 
       status: 'Success',
       members: board.members
     })
-  } catch {
+  } catch (error) {
     res.status(400).json({
       status: 'Failure',
-      message: 'Something went wrong while trying to get members!'
+      message: 'Something went wrong while trying to get members!',
+      error
     })
   }
 }

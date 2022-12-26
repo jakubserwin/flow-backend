@@ -19,13 +19,13 @@ const app = express()
 app.use(helmet({
   crossOriginResourcePolicy: false
 }))
+app.use(cors())
+app.use(express.json())
 app.use(rateLimit({
-  windowMs: 15 * 60 * 1000,
+  windowMs: 10 * 60 * 1000, // 10 minutes
   max: 100,
   message: 'Too many requests from this IP!'
 }))
-app.use(express.json())
-app.use(cors())
 
 // const _dirname = path.dirname(fileURLToPath(import.meta.url))
 // app.use('/public', express.static(_dirname + '/public'))

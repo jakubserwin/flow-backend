@@ -8,10 +8,11 @@ export const createBoard = async (req: Request, res: Response): Promise<void> =>
       status: 'Success',
       board
     })
-  } catch {
+  } catch (error) {
     res.status(400).json({
       status: 'Failure',
-      message: 'Something went wrong while trying to create board!'
+      message: 'Something went wrong while trying to create board!',
+      error
     })
   }
 }
@@ -24,10 +25,11 @@ export const getBoardsByProject = async (req: Request, res: Response): Promise<v
       status: 'Success',
       boards
     })
-  } catch {
+  } catch (error) {
     res.status(400).json({
       status: 'Failure',
-      message: 'Project doesn\'t have any boards!'
+      message: 'Something went wrong while trying get boards!',
+      error
     })
   }
 }
@@ -42,10 +44,11 @@ export const updateBoard = (req: Request, res: Response): void => {
         board: response
       })
     })
-    .catch(() => {
+    .catch((error) => {
       res.status(400).json({
         status: 'Failure',
-        message: 'Something went wrong while trying to update board!'
+        message: 'Something went wrong while trying to update board!',
+        error
       })
     })
 }
@@ -58,10 +61,11 @@ export const deleteBoard = async (req: Request, res: Response): Promise<void> =>
       status: 'Success',
       project: null
     })
-  } catch {
+  } catch (error) {
     res.status(400).json({
       status: 'Failure',
-      message: 'Something went wrong while trying to delete board!'
+      message: 'Something went wrong while trying to delete board!',
+      error
     })
   }
 }
@@ -91,10 +95,11 @@ export const addOrRemoveMember = async (req: Request, res: Response): Promise<vo
       status: 'Success',
       board: newBoard
     })
-  } catch {
+  } catch (error) {
     res.status(400).json({
       status: 'Failure',
-      message: 'Something went wrong while trying to change member permissions!'
+      message: 'Something went wrong while trying to change member permissions!',
+      error
     })
   }
 }

@@ -22,10 +22,11 @@ export const signUp = (req: Request, res: Response): void => {
         user: response
       })
     })
-    .catch(() => {
+    .catch((error) => {
       res.status(400).json({
         status: 'Failure',
-        message: 'Invalid signUp data'
+        message: 'Something went wrong while trying to sign up!',
+        error
       })
     })
 }
@@ -33,23 +34,13 @@ export const signUp = (req: Request, res: Response): void => {
 export const login = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password } = req.body
-
-    if (email === '' || password === '') {
-      res.status(400).json({
-        status: 'Failure',
-        message: 'Empty values provided'
-      })
-      return
-    }
-
     const user = await User.findOne({ email }).select('+password')
 
     if ((user == null) || !(await user.verifyPassword(password))) {
       res.status(400).json({
         status: 'Failure',
-        message: 'Invalid email or password',
-        user,
-        find: User.findOne({ email })
+        message: 'Provided credentials are incorrect!',
+        error: null
       })
       return
     }
@@ -60,10 +51,11 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       token,
       user
     })
-  } catch {
+  } catch (error) {
     res.status(400).json({
       status: 'Failure',
-      message: 'Something went wrong'
+      message: 'Something went wrong while trying to sign in!',
+      error
     })
   }
 }

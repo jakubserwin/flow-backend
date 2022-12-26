@@ -3,3 +3,8 @@ export interface TokenInterface {
   iat: number
   exp: number
 }
+
+export enum ManageAction {
+  INVITE = 'INVITE',
+  'REVOKE' = 'REVOKE'
+}

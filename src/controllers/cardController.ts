@@ -19,10 +19,11 @@ export const createCard = async (req: Request, res: Response): Promise<void> => 
       status: 'Success',
       card
     })
-  } catch (err) {
+  } catch (error) {
     res.status(400).json({
       status: 'Failure',
-      message: 'Something went wrong while trying to create card!'
+      message: 'Something went wrong while trying to create card!',
+      error
     })
   }
 }
@@ -34,10 +35,11 @@ export const updateCard = async (req: Request, res: Response): Promise<void> => 
       status: 'Success',
       card
     })
-  } catch {
+  } catch (error) {
     res.status(400).json({
       status: 'Failure',
-      message: 'Something went wrong while trying to update card!'
+      message: 'Something went wrong while trying to update card!',
+      error
     })
   }
 }
@@ -50,10 +52,11 @@ export const deleteCard = async (req: Request, res: Response): Promise<void> => 
       status: 'Success',
       card: null
     })
-  } catch {
+  } catch (error) {
     res.status(400).json({
       status: 'Failure',
-      message: 'Something went wrong while trying to delete card!'
+      message: 'Something went wrong while trying to delete card!',
+      error
     })
   }
 }
