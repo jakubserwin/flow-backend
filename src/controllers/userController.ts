@@ -1,10 +1,16 @@
 import { Request, Response, NextFunction } from 'express'
 import multer, { FileFilterCallback } from 'multer'
-// import sharp from 'sharp'
-// import Jimp from 'jimp';
 import { Board, User } from '../models'
 
-const multerStorage = multer.memoryStorage()
+const multerStorage = multer.diskStorage({
+  destination: (req: Request, res: Express.Multer.File, cb: (error: (Error | null), filename: string) => void) => {
+    cb(null, '../public')
+  },
+  filename: (req: Request, file: Express.Multer.File, callback: (error: (Error | null), filename: string) => void) => {
+    console.log(file)
+    callback(null, `user-${req.params.id}-${Date.now()}.jpeg`)
+  }
+})
 
 const multerFilter = (_: Request, file: Express.Multer.File, cb: FileFilterCallback): void => {
   if (file.mimetype.startsWith('image')) {
@@ -27,21 +33,9 @@ export const uploadAvatar = upload.single('avatar')
 export const resizeAvatar = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   if (req.file === undefined) return next()
 
-  req.file.filename = `user-${req.params.id}-${Date.now()}.jpeg`
-  // await sharp(req.file.buffer)
-  //   .resize(500, 500)
-  //   .toFormat('jpeg')
-  //   .jpeg({ quality: 90 })
-  //   .toFile(`src/public/${req.file.filename}`)
+  // req.file.filename = `user-${req.params.id}-${Date.now()}.jpeg`
 
-  // await Jimp.read('lenna.png', (err, lenna) => {
-  //   if (err !== null) throw err
-  //   lenna
-  //     .resize(256, 256) // resize
-  //     .quality(60) // set JPEG quality
-  //     .greyscale() // set greyscale
-  //     .write('lena-small-bw.jpg'); // save
-  // });
+  console.log(req.file)
 
   next()
 }
