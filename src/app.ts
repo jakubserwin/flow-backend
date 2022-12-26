@@ -5,9 +5,7 @@ import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
 import cors from 'cors'
 import config from './config'
-import path from 'path'
 import { HandlerEvent } from '@netlify/functions'
-// import { fileURLToPath } from 'url'
 import { boardRouter, listRouter, projectRouter, userRouter, cardRouter } from './routes'
 
 const API_PREFIX = '/.netlify/functions/app'
@@ -26,10 +24,6 @@ app.use(rateLimit({
   max: 100,
   message: 'Too many requests from this IP!'
 }))
-
-// const _dirname = path.dirname(fileURLToPath(import.meta.url))
-// app.use('/public', express.static(_dirname + '/public'))
-app.use('/public', express.static(path.join(__dirname, '/public')))
 
 // Routes
 app.use(`${API_PREFIX}/users`, userRouter)

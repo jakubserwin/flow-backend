@@ -1,11 +1,11 @@
 import express from 'express'
-import { login, protect, signUp, resizeAvatar, updateUser, uploadAvatar, getMembers } from '../controllers'
+import { login, protect, signUp, getMembers } from '../controllers'
 
 const userRouter = express.Router()
 
 userRouter.post('/signup', signUp)
 userRouter.post('/login', login)
-userRouter.patch('/:id', protect, uploadAvatar, resizeAvatar, updateUser)
+// userRouter.patch('/:id', protect, updateUser)
 userRouter.get('/:id', protect, getMembers)
 
 export { userRouter }
