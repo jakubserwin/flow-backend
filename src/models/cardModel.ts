@@ -14,9 +14,6 @@ const cardSchema = new Schema<ICard>({
   dueDate: {
     type: Number
   },
-  order: {
-    type: Number
-  },
   description: {
     type: String
   }
