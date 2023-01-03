@@ -14,9 +14,7 @@ const API_PREFIX = '/.netlify/functions/app'
 const app = express()
 
 // Global Middleware
-app.use(helmet({
-  crossOriginResourcePolicy: false
-}))
+app.use(helmet())
 app.use(cors())
 app.use(express.json())
 app.use(rateLimit({
